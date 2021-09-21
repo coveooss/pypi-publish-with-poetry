@@ -28,6 +28,11 @@ inputs:
     description: The github tag prefix, such as `v` in `v3.4.2`
     default: v
     required: false
+  pyproject-folder:
+    description: The folder that contains the `pyproject.toml` file.
+    default: ./
+    required: false
+
 
 runs:
   using: 'composite'
@@ -45,8 +50,9 @@ runs:
       run: pipx install coveo-pypi-cli${{ inputs.pypi-cli-version }}
 
     - name: Determine the minimum version for this release (the one in the pyproject.toml file)
-      shell: bash
       id: get-minimum-version
+      shell: bash
+      working-directory: ${{ inputs.working-folder }}
       run: echo "::set-output name=minimum-version::$(${{ github.action_path }}/get-minimum-version.sh)"
 
     - name: Compute the release and prerelease versions
@@ -71,6 +77,7 @@ runs:
         fi
 
     - name: Setup poetry for publish
+      working-directory: ${{ inputs.working-folder }}
       shell: bash
       run: |
         poetry version ${{ steps.get-next-version.outputs.version }}
@@ -78,6 +85,7 @@ runs:
         poetry config pypi-token.pypi ${{ inputs.pypi-token }}
 
     - name: Publish to pypi.org
+      working-directory: ${{ inputs.working-folder }}
       shell: bash
       run: |
         if [[ ${{ inputs.dry-run }} == false ]]; then
