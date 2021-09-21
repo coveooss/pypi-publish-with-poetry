@@ -30,7 +30,7 @@ jobs:
           python-version: 3.9
 
       - name: Publish to pypi
-        uses: ./action.yml
+        uses: .
         with:
           project-name: pypi-publish-with-poetry-dogfood
           pypi-token: ${{ secrets.PYPI_TOKEN }}
@@ -52,7 +52,7 @@ jobs:
           python-version: 3.9
 
       - name: Publish to pypi
-        uses: ./action.yml
+        uses: .
         with:
           project-name: pypi-publish-with-poetry-dogfood
           pypi-token: ${{ secrets.PYPI_TOKEN }}
@@ -74,7 +74,7 @@ jobs:
           python-version: 3.9
 
       - name: Publish to pypi
-        uses: ./action.yml
+        uses: .
         with:
           project-name: pypi-publish-with-poetry-dogfood
           pypi-token: ${{ secrets.PYPI_TOKEN }}
