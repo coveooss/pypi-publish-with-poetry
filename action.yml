@@ -11,19 +11,23 @@ inputs:
   pre-release:
     description: Set to true if a pre-release version should be published.
     required: false
-    default: false
+    default: "false"
   dry-run:
     description: Set to true for a test run that doesn't publish or tag.
-    default: false
+    default: "false"
+    required: false
   poetry-version:
     description: The version of poetry to use.
     default: ==1.1.8
+    required: false
   pypi-cli-version:
     description: The version of coveo-pypi-cli to use.
     default: ==2.0.3
+    required: false
   tag-prefix:
     description: The github tag prefix, such as `v` in `v3.4.2`
     default: v
+    required: false
 
 runs:
   using: 'composite'
