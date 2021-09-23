@@ -29,6 +29,31 @@ Some limitations exist by design:
 Note: The packages `pip`, `setuptools`, `wheel` and `pipx` will be installed/upgraded 
 using the `python` executable from the path.
 
+# Default usage
+
+The default usage requires a project name and a token:
+
+      - name: Publish to pypi
+        uses: coveooss/pypi-publish-with-poetry@v1.0.0
+        with:
+          project-name: my-project-name
+          pypi-token: ${{ secrets.PYPI_TOKEN }}
+
+The project will be published, your changeset will be tagged with a `v1.2.3` kind of tag and revisions will increase automatically.
+
+## About the action's version
+
+In this repository, no tags are mutable by design.
+In other words, we don't keep a `@v1` or `latest` tag that we update as new revisions are released.
+
+Instead, we leverage our own repository tagging feature to provide users with a `v{major}.{minor}.{revision}` tag.
+This is similar to specifying the changeset's sha, but offers more visibility on the evolution of the action
+and allows us to transparently issue security and emergency hotfixes if that ever becomes a necessity.
+
+- If you want guaranteed immutability, specify a `@sha`.
+- If you want general immutability and potential hotfixes, specify a `v{major}.{minor}.{revision}`.
+- If you want to live dangerously, specify `@main`.
+
 
 # Documentation
 
@@ -126,9 +151,13 @@ You can launch a dry run of the publish operation, which will:
 The dry run option is detailed at  [the top of the action file](./action.yml).
 
 
-# Usage
+# Recommended usage
 
-This is how we recommend using this action. 
+The recommended usage will provide you this behavior:
+
+- Running the action from the main branch will automatically publish a new version.
+- Running the action from other branches will produce a dry run.
+- Running the action manually on a branch and typing in "true" when prompted will publish a prerelease version.
 
 First, you need to add some inputs in the workflow dispatch: 
 
@@ -143,7 +172,7 @@ First, you need to add some inputs in the workflow dispatch:
 Here's how we suggest you design the `uses` step:
     
       - name: Publish to pypi
-        uses: coveooss/pypi-publish-with-poetry@v1
+        uses: coveooss/pypi-publish-with-poetry@v1.0.0
         with:
           project-name: my-project-name
           pypi-token: ${{ secrets.PYPI_TOKEN }}
@@ -151,18 +180,12 @@ Here's how we suggest you design the `uses` step:
           dry-run: ${{ github.ref != 'refs/heads/main' && github.event.inputs.publish != 'true' }}
 
 
-So that:
-
-- Running the action from the main branch will automatically publish a new version.
-- Running the action from other branches will produce a dry run.
-- Running the action manually on a branch and typing in "true" when prompted will publish a prerelease version.
-
-The options are described in details at [the top of the action file](./action.yml).
+More options are described at [the top of the action file](./action.yml).
 
 
 # How to start a new project
 
-When starting a new project, we recommend setting the version to `0.1.0` as the first official public release, 
+When starting a new project, we recommend setting your project's version to `0.1.0` as the first official public release, 
 as described in the [semantic versioning FAQ](https://semver.org/#how-should-i-deal-with-revisions-in-the-0yz-initial-development-phase).
 
 
