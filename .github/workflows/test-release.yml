@@ -7,9 +7,9 @@ on:
   workflow_dispatch:
     inputs:
       publish:
-        description: Select the host's OS for the real publish operation ('linux', 'windows', 'mac')
+        description: If desired, input the OS that will perform the real publish operation ('linux', 'windows', 'mac').
         required: false
-        default: 'dry-run'
+        default: 'Any other input will trigger dry runs.'
 
 
 jobs:

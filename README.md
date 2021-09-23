@@ -43,8 +43,7 @@ The project will be published, your changeset will be tagged with a `v1.2.3` kin
 
 ## About the action's version
 
-In this repository, no tags are mutable by design.
-In other words, we don't keep a `@v1` or `latest` tag that we update as new revisions are released.
+In this repository, we don't keep a `@v1` or `latest` tag that we update as new revisions are released.
 
 Instead, we leverage our own repository tagging feature to provide users with a `v{major}.{minor}.{revision}` tag.
 This is similar to specifying the changeset's sha, but offers more visibility on the evolution of the action
