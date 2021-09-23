@@ -1,10 +1,6 @@
-name: dogfood
+name: test-release
 
 on:
-  push:
-    branches:
-      - main
-
   pull_request:
     types: [opened, synchronize, reopened]
 
@@ -17,7 +13,7 @@ on:
 
 
 jobs:
-  dogfood-linux:
+  publish-from-linux:
     runs-on: ubuntu-20.04
 
     steps:
@@ -39,8 +35,7 @@ jobs:
           tag-prefix: dogfood-linux-
           pyproject-folder: ./pypi-publish-with-poetry-dogfood
 
-  dogfood-windows:
-    needs: dogfood-linux
+  publish-from-windows:
     runs-on: windows-2022
 
     steps:
@@ -62,8 +57,7 @@ jobs:
           tag-prefix: dogfood-windows-
           pyproject-folder: ./pypi-publish-with-poetry-dogfood
 
-  dogfood-mac:
-    needs: dogfood-windows
+  publish-from-mac:
     runs-on: macos-11
 
     steps:
