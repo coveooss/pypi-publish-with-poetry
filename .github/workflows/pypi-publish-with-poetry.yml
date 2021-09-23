@@ -39,7 +39,7 @@ jobs:
           pypi-token: ${{ secrets.PYPI_TOKEN_DOGFOOD }}
           pre-release: ${{ github.ref != 'refs/heads/main' }}
           dry-run: ${{ github.ref != 'refs/heads/main' && github.event.inputs.publish != 'true' }}
-          disable-repository-tags: true
+          tag-prefix: dogfood-linux-
           pyproject-folder: ./pypi-publish-with-poetry-dogfood
 
   dogfood-windows:
@@ -62,7 +62,7 @@ jobs:
           pypi-token: ${{ secrets.PYPI_TOKEN_DOGFOOD }}
           pre-release: ${{ github.ref != 'refs/heads/main' }}
           dry-run: ${{ github.event.inputs.publish != 'windows' }}
-          disable-repository-tags: ${{ github.event.inputs.publish != 'windows' }}
+          tag-prefix: dogfood-windows-
           pyproject-folder: ./pypi-publish-with-poetry-dogfood
 
   dogfood-mac:
@@ -85,5 +85,5 @@ jobs:
           pypi-token: ${{ secrets.PYPI_TOKEN_DOGFOOD }}
           pre-release: ${{ github.ref != 'refs/heads/main' }}
           dry-run: ${{ github.event.inputs.publish != 'mac' }}
-          disable-repository-tags: ${{ github.event.inputs.publish != 'mac' }}
+          tag-prefix: dogfood-mac-
           pyproject-folder: ./pypi-publish-with-poetry-dogfood
