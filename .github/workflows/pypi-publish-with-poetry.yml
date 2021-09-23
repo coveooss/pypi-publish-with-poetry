@@ -11,12 +11,9 @@ on:
   workflow_dispatch:
     inputs:
       publish:
-        description: >
-          The main branch is always deployed.
-          To deploy from another branch, input 'true' in the box below.
-          You can also input 'windows' or 'mac' to publish from those OS.
+        description: Select the host's OS for the real publish operation ('linux', 'windows', 'mac')
         required: false
-        default: 'false'
+        default: 'dry-run'
 
 
 jobs:
@@ -38,7 +35,7 @@ jobs:
           project-name: pypi-publish-with-poetry-dogfood
           pypi-token: ${{ secrets.PYPI_TOKEN_DOGFOOD }}
           pre-release: ${{ github.ref != 'refs/heads/main' }}
-          dry-run: ${{ github.ref != 'refs/heads/main' && github.event.inputs.publish != 'true' }}
+          dry-run: ${{ github.event.inputs.publish != 'linux' }}
           tag-prefix: dogfood-linux-
           pyproject-folder: ./pypi-publish-with-poetry-dogfood
 
