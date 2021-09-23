@@ -1,23 +1,19 @@
 name: test-release
 
 on:
-  push:
-    branches:
-      - main
-
   pull_request:
     types: [opened, synchronize, reopened]
 
   workflow_dispatch:
     inputs:
-      deploy_branch:
-        description: The main branch is always deployed. To deploy from another branch, input something in the box below.
+      publish:
+        description: Select the host's OS for the real publish operation ('linux', 'windows', 'mac')
         required: false
-        default: ''
+        default: 'dry-run'
 
 
 jobs:
-  dogfood-linux:
+  publish-from-linux:
     runs-on: ubuntu-20.04
 
     steps:
@@ -35,11 +31,11 @@ jobs:
           project-name: pypi-publish-with-poetry-dogfood
           pypi-token: ${{ secrets.PYPI_TOKEN_DOGFOOD }}
           pre-release: ${{ github.ref != 'refs/heads/main' }}
-          dry-run: ${{ github.ref != 'refs/heads/main' && github.event.inputs.publish != 'true' }}
+          dry-run: ${{ github.event.inputs.publish != 'linux' }}
+          tag-prefix: dogfood-linux-
           pyproject-folder: ./pypi-publish-with-poetry-dogfood
 
-  dogfood-windows:
-    needs: dogfood-linux
+  publish-from-windows:
     runs-on: windows-2022
 
     steps:
@@ -57,11 +53,11 @@ jobs:
           project-name: pypi-publish-with-poetry-dogfood
           pypi-token: ${{ secrets.PYPI_TOKEN_DOGFOOD }}
           pre-release: ${{ github.ref != 'refs/heads/main' }}
-          dry-run: ${{ github.ref != 'refs/heads/main' && github.event.inputs.publish != 'true' }}
+          dry-run: ${{ github.event.inputs.publish != 'windows' }}
+          tag-prefix: dogfood-windows-
           pyproject-folder: ./pypi-publish-with-poetry-dogfood
 
-  dogfood-mac:
-    needs: dogfood-windows
+  publish-from-mac:
     runs-on: macos-11
 
     steps:
@@ -79,5 +75,6 @@ jobs:
           project-name: pypi-publish-with-poetry-dogfood
           pypi-token: ${{ secrets.PYPI_TOKEN_DOGFOOD }}
           pre-release: ${{ github.ref != 'refs/heads/main' }}
-          dry-run: ${{ github.ref != 'refs/heads/main' && github.event.inputs.publish != 'true' }}
+          dry-run: ${{ github.event.inputs.publish != 'mac' }}
+          tag-prefix: dogfood-mac-
           pyproject-folder: ./pypi-publish-with-poetry-dogfood
