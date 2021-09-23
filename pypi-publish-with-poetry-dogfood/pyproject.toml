@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "pypi-publish-with-poetry-dogfood"
+version = "0.1.0"
+description = "Empty package to test the GitHub Action `coveooss/pypi-publish-with-poetry`"
+license = "Apache-2.0"
+readme = "README.md"
+repository = "https://github.com/coveooss/pypi-publish-with-poetry"
+authors = ["Jonathan Piché <tools@coveo.com>"]
+
+
+[tool.poetry.dependencies]
+python = ">=3.8"
+
+
+[build-system]
+requires = ["poetry_core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
