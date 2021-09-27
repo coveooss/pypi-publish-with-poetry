@@ -27,6 +27,11 @@ inputs:
     default: v
     required: false
 
+  disable-repository-tags:
+    description: Set to `true` in order to disable the automatic tagging feature.
+    default: 'false'
+    required: false
+
   pyproject-folder:
     description: The folder that contains the `pyproject.toml` file.
     default: ./
@@ -120,7 +125,7 @@ runs:
       env:
         TAG_NAME: ${{ steps.get-next-tag.outputs.tag-name }}
       run: |
-        if [[ ${{ inputs.dry-run }} == false ]]; then
+        if [[ ${{ inputs.dry-run }} == false && ${{ inputs.disable-repository-tags }} != true ]]; then
           git push origin $TAG_NAME
         else
           echo "If this wasn't a dry run, I would push this new tag named $TAG_NAME"
