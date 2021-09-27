@@ -10,6 +10,7 @@ This GitHub Action will publish a Python project to [pypi.org](https://pypi.org)
 - Automatic repository version tagging.
 - Prerelease support.
 - Dry run support.
+- Tested on linux/windows/mac.
 
 
 # Limitations
