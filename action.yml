@@ -2,35 +2,50 @@ name: publish-to-pypi
 description: Publish a poetry project to pypi.org. Requires "python" to be in the path.
 
 inputs:
+  # required inputs
   project-name:
     description: The project name in pypi.org
     required: true
+
   pypi-token:
     description: The pypi token to use for authentication
     required: true
+
+  # behavior and options
   pre-release:
     description: Set to true if a pre-release version should be published.
     required: false
     default: "false"
+
   dry-run:
     description: Set to true for a test run that doesn't publish or tag.
     default: "false"
     required: false
-  poetry-version:
-    description: The version of poetry to use.
-    default: ==1.1.8
-    required: false
-  pypi-cli-version:
-    description: The version of coveo-pypi-cli to use.
-    default: ==2.0.3
-    required: false
+
   tag-prefix:
     description: The github tag prefix, such as `v` in `v3.4.2`
     default: v
     required: false
+
+  disable-repository-tags:
+    description: Set to `true` in order to disable the automatic tagging feature.
+    default: 'false'
+    required: false
+
   pyproject-folder:
     description: The folder that contains the `pyproject.toml` file.
     default: ./
+    required: false
+
+  # internal
+  poetry-version:
+    description: The version of poetry to use.
+    default: ==1.1.8
+    required: false
+
+  pypi-cli-version:
+    description: The version of coveo-pypi-cli to use.
+    default: ==2.0.3
     required: false
 
 
@@ -110,7 +125,7 @@ runs:
       env:
         TAG_NAME: ${{ steps.get-next-tag.outputs.tag-name }}
       run: |
-        if [[ ${{ inputs.dry-run }} == false ]]; then
+        if [[ ${{ inputs.dry-run }} == false && ${{ inputs.disable-repository-tags }} != true ]]; then
           git push origin $TAG_NAME
         else
           echo "If this wasn't a dry run, I would push this new tag named $TAG_NAME"
